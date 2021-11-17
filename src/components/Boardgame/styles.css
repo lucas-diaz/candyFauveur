@@ -1,0 +1,11 @@
+.game{
+  width: 800px;
+  height: 800px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.game img{
+  width: 100px;
+  height: 100px;
+}
