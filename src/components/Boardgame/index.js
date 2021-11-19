@@ -4,96 +4,117 @@ import PropTypes from 'prop-types';
 
 // == Import : local
 import './styles.css';
-import blank from '../../assets/blue-candy.png';
+import blank from '../../assets/caca.jpg';
 
 // == Composant
-const BoardGame = ({ candyColors, width, randColors, colorArrangement, modifyColorBlank, squareBeingDragged, squareBeingReplaced, squareReplaced, squareDragged, addScore, score }) => {
+const BoardGame = ({
+  candyColors,
+  width,
+  randColors,
+  colorArrangement,
+  modifyColorBlank,
+  squareBeingDragged,
+  squareBeingReplaced,
+  squareReplaced,
+  squareDragged,
+  addScore,
+  score,
+  setScoreTrueOrFalse,
+  scoreTrueOrFalse,
+  movement,
+ setMovement, }) => {
 
 
 // chexk des colonne si 4 couleur identique
-const checkForColumn = () => {
-    for (let i = 0; i <= 47; i++) {
+const checkForColumnOfFour = () => {
+    for (let i = 0; i <= 39; i++) {
       const columnOfFour = [i, i + width, i + width * 2, i + width * 3];
-      const columnOfFive = [i, i + width, i + width * 2, i + width * 3, i + width * 4];
-      const columnOfThree = [i, i + width, i + width * 2];
       const decidedColor = colorArrangement[i];
-      const isBlack = colorArrangement[i] === 'black'
+      const isBlank = colorArrangement[i] === blank
 
-      if (columnOfFive.every(square => colorArrangement[square] === decidedColor && !isBlack)) {
-        columnOfFive.forEach(square => colorArrangement[square] = 'black')
-        console.log('colonne de 5')
-
-        const colorFilterScore = colorArrangement.filter( item => item === 'black' )
-        addScore(score + colorFilterScore.length)
-      }
-      else if (columnOfFour.every( square => colorArrangement[square] === decidedColor && !isBlack)) {
-        columnOfFour.forEach(square => colorArrangement[square] = 'black')
-        console.log('colonne de 4')
-        const colorFilterScore = colorArrangement.filter( item => item === 'black' )
-        addScore(score + colorFilterScore.length)
-      }
-      else if (columnOfThree.every( square => colorArrangement[square] === decidedColor && !isBlack)) {
-        columnOfThree.forEach(square => colorArrangement[square] = 'black')
-        console.log('colonne de 3', decidedColor, colorArrangement[0] )
-        const colorFilterScore = colorArrangement.filter( item => item === 'black' )
-        addScore(score + colorFilterScore.length)
-        console.log(colorFilterScore)
-        
+      if (columnOfFour.every( square => colorArrangement[square] === decidedColor && !isBlank)) {
+        columnOfFour.forEach(square => colorArrangement[square] = blank)
+        if (scoreTrueOrFalse) {
+          addScore(score + 4);
+        }
+        return true
       }
     }
 }
 
 
   // chexk des ligne si 3 couleur identique
-  const checkForRow = () => {
-    for (let i = 0; i <= 64; i++) {
+  const checkForRowOfFour = () => {
+    for (let i = 0; i < 64; i++) {
       const RowOfFour = [i, i + 1, i + 2, i + 3];
-      const RowOfFive = [i, i + 1, i + 2, i + 3, i + 4];
-      const RowOfThree = [i, i + 1, i + 2];
       const decidedColor = colorArrangement[i];
-      const isBlack = colorArrangement[i] === 'black'
-     /*  const notValidFive = [4, 5, 6, 7, 12, 13, 14, 15, 20, 21, 22, 23, 28, 29, 30, 31, 36, 37, 38, 39, 44, 45, 46, 47, 52, 53, 54, 55, 61, 62, 63, 64];
-      const notValidFour = [5, 6, 7, 13, 14, 15, 21, 22, 23, 29, 30, 31, 37, 38, 39, 45, 46, 47, 53, 54, 55, 62, 63, 64]; */
-      const notValidThree = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 63, 64];
-      if (notValidThree.includes(i)) continue;
+      const notValid = [5, 6, 7, 13, 14, 15, 21, 22, 23, 29, 30, 31, 37, 38, 39, 45, 46, 47, 53, 54, 55, 62, 63, 64]; 
+      const isBlank = colorArrangement[i] === blank
+
+      if (notValid.includes(i)) continue;
       
-      if (RowOfFive.every(square => colorArrangement[square] === decidedColor && !isBlack)) {
-        //console.log('row 5')
-        RowOfFive.forEach(square => colorArrangement[square] = 'black')
-        const colorFilterScore = colorArrangement.filter( item => item === 'black' )
-        addScore(score + colorFilterScore.length)
-        
-      } else if (RowOfFour.every(square => colorArrangement[square] === decidedColor && !isBlack)) {
-        RowOfFour.forEach(square => colorArrangement[square] = 'black')
+      if (RowOfFour.every(square => colorArrangement[square] === decidedColor && !isBlank)) {
+        RowOfFour.forEach(square => colorArrangement[square] = blank)
 
-        //console.log('row 4')
-        const colorFilterScore = colorArrangement.filter( item => item === 'black' )
-        addScore(score + colorFilterScore.length)
-      }
-      else if (RowOfThree.every(square => colorArrangement[square] === decidedColor && !isBlack )) {
-        console.log(RowOfThree.every(square => colorArrangement[square] === decidedColor), RowOfFour.every(square => colorArrangement[square] === decidedColor))
-        RowOfThree.forEach(square => colorArrangement[square] = 'black')
-        console.log(decidedColor, 'row 3', )
-    
-        const colorFilterScore = colorArrangement.filter( item => item === 'black' )
-        addScore(score + colorFilterScore.length)
-
+        const colorFilterScore = colorArrangement.filter( item => item === blank )
+        if (scoreTrueOrFalse) {
+          addScore(score + 4)
+        }
       }
     }
   }
+
+    // chexk des colonne si 4 couleur identique
+  const checkForColumnOfThree = () => {
+    for (let i = 0; i <= 47; i++) {
+      const columnOfThree = [i, i + width, i + width * 2];
+      const decidedColor = colorArrangement[i];
+      const isBlank = colorArrangement[i] === blank
+      if (columnOfThree.every( square => colorArrangement[square] === decidedColor && !isBlank)) {
+        if (scoreTrueOrFalse) {
+          addScore(score + 3)   
+        }
+        console.log(columnOfThree[0], 'premier caré')
+        columnOfThree.forEach(square => colorArrangement[square] = blank)
+        return true;
+      }
+    }
+  };
+
+
+  // chexk des ligne si 3 couleur identique
+  const checkForRowOfThree = () => {
+    for (let i = 0; i < 64; i++) {
+      const RowOfThree = [i, i + 1, i + 2];
+      const decidedColor = colorArrangement[i];
+      const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 63, 64]; 
+      const isBlank = colorArrangement[i] === blank
+
+      if (notValid.includes(i)) continue;
+      
+      if (RowOfThree.every(square => colorArrangement[square] === decidedColor && !isBlank)) {
+        if (scoreTrueOrFalse) {
+          addScore(score + 3)
+        }
+        RowOfThree.forEach(square => colorArrangement[square] = blank)
+      }
+    }
+  }
+
+
 
   const moveIntoSquareBelow = () => {
     for (let i = 0; i < 64 - width; i++) {
       // remplace les premier carré vidé par des plein de facon random
       const firstRow = [0, 1, 2, 3, 4, 5, 6, 7];
-      if (firstRow.includes(i) && colorArrangement[i] === 'black') {
+      if (firstRow.includes(i) && colorArrangement[i] === blank) {
         const randomNUmber = Math.floor(Math.random() * candyColors.length);
         colorArrangement[i] = candyColors[randomNUmber];
       }
       // si un carré est vide en dessous d'une couleur la couleur descend 
-      if (colorArrangement[i + width] === 'black') {
+      if (colorArrangement[i + width] === blank) {
         colorArrangement[i + width] = colorArrangement[i];
-        colorArrangement[i] = 'black';
+        colorArrangement[i] = blank;
       }
     }
   }
@@ -102,7 +123,9 @@ const checkForColumn = () => {
   // fonction debut de l'evenement a la  prise d'un element
   const dragStart = (e) => {
     //console.log('drag start', e.target);
-    squareBeingDragged(e.target);
+    if (movement >= 1) {
+      squareBeingDragged(e.target);   
+    }
   };
     // fonction lacher d'un element
   const dragDrop = (e) => {
@@ -115,25 +138,33 @@ const checkForColumn = () => {
     const squareBeingDraggedId = parseInt(squareDragged.getAttribute('data-id'))
     const squareBeingReplacedId = parseInt(squareReplaced.getAttribute('data-id'))
 
+    // permet de remplacer la couleur du  carrée qui recoit par celle qui est tenue
+    colorArrangement[squareBeingReplacedId] = squareDragged.getAttribute('src') ;
+    // permet de remplacer la couleur du  carrée qui est tenue par celle qui est recoit
+    colorArrangement[squareBeingDraggedId] = squareReplaced.getAttribute('src') ;
+
     const validMoves = [
       squareBeingDraggedId - 1,
       squareBeingDraggedId - width,
       squareBeingDraggedId + 1,
       squareBeingDraggedId + width,
-    ];
+    ]
+
     // si id de la case a coté est valid on deplace si non on annule le deplacement
-    if (validMoves.includes(squareBeingReplacedId)) {
-      // permet de remplacer la couleur du  carrée qui recoit par celle qui est tenue
-      colorArrangement[squareBeingReplacedId] = squareDragged.style.backgroundColor ;
-      // permet de remplacer la couleur du  carrée qui est tenue par celle qui est recoit
-      colorArrangement[squareBeingDraggedId] = squareReplaced.style.backgroundColor ;
+    if (validMoves.includes(squareBeingReplacedId  ) && movement >= 1) {
+      // au premier deplacement permet d'activer le score
+      setScoreTrueOrFalse()
+      //-1 au
+      setMovement();
+      console.log('123 valid')
       squareBeingReplaced(null)
       squareBeingDragged(null)
       console.log('move reussi')
     }
     else{
-      colorArrangement[squareBeingReplacedId] = squareReplaced.style.backgroundColor ;
-      colorArrangement[squareBeingDraggedId] = squareDragged.style.backgroundColor ;
+      colorArrangement[squareBeingReplacedId] = squareReplaced.getAttribute('src') ;
+      colorArrangement[squareBeingDraggedId] = squareDragged.getAttribute('src') ;
+      randColors(colorArrangement);
     }
 
   };
@@ -153,33 +184,44 @@ const checkForColumn = () => {
     CreateBoard();
     
 }, []);
+
+
+
 // permet le rafraichisement pour check si des sumbole de 3-4 sont reunie
 useEffect(() => {
   const timer = setInterval(() => {
 
-    console.log(colorArrangement.includes(!'black'), colorArrangement.includes('black'), )
-      if (colorArrangement.includes(!'black') ) {
-      }
-      checkForRow();
-      checkForColumn();
-      //checkForColumnOfThree();
-      //checkForRowOfThree();
+    setTimeout(() => {
+      checkForRowOfFour();
+      checkForColumnOfFour();
+      checkForColumnOfThree();
+      checkForRowOfThree();
       moveIntoSquareBelow();
       modifyColorBlank(colorArrangement);
-    }, 1000 )
+      
+    }, 10);
+    }, 200 )
   return () => clearInterval(timer)
-}, [checkForColumn, , checkForRow, moveIntoSquareBelow, colorArrangement]);
-
+}, [checkForRowOfFour, checkForColumnOfFour, checkForColumnOfThree, checkForRowOfThree, moveIntoSquareBelow, colorArrangement]);
+ console.log(movement)
   return (
-    <div>
-    <p>{score} </p>
-    <button type="button" onClick={checkForColumn}>⇩</button>
+    <div className="main">
+      <div className="scoreAndMovement">
+        <div className="movement">
+          <p>Point de mouvement</p>
+          <p className="movement-nombre">{movement}</p>
+        </div>
+        <div>
+          <p>Score</p>
+          <p className="score">{score} </p>
+        </div>
+       </div>
     <div className="game">
       {colorArrangement.map((color, index) => (
         <img
           key={index}
-          style={{backgroundColor: color }}
-          //src={color}
+          //style={{backgroundColor: color }}
+          src={color}
           alt={color}
           data-id={index}
           draggable="true"

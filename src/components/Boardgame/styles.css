@@ -1,11 +1,51 @@
+.main{
+  display: flex;
+  margin: auto;
+  width: 1000px;
+}
+
 .game{
-  width: 800px;
-  height: 800px;
+  width: 640px;
+  height: 640px;
   display: flex;
   flex-wrap: wrap;
+  align-self: center;
 }
 
 .game img{
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
+}
+
+.scoreAndMovement{
+  background-color: #324E18;
+  width: 220px;
+  height: 170px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-right: 30px;
+  border-radius: 10px;
+ font-size: 1.2rem;
+}
+
+.movement{
+  margin-top: 10px;
+}
+
+.movement-nombre{
+  background-color: #ACBFA4;
+  width: 150px;
+  height: 30px;
+  border-radius: 100px;
+  margin: 15px auto 15px auto;
+}
+
+.score{
+  background-color: #ACBFA4;
+  width: 150px;
+  height: 30px;
+  border-radius: 100px;
+  margin: 15px auto 15px auto;
 }

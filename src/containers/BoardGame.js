@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import BoardGame from '../components/Boardgame';
 
 // Action Creators
-import { colorArrangement, modifyColorBlank, squareBeingDragged, squareBeingReplaced, addScore } from '../actions/boardgameAction';
+import { colorArrangement, setMovement, modifyColorBlank, squareBeingDragged, squareBeingReplaced, addScore, setScoreTrueOrFalse } from '../actions/boardgameAction';
 
 const mapStateToProps = (state, ownProps) => ({
   width: state.boardgame.width,
@@ -14,6 +14,8 @@ const mapStateToProps = (state, ownProps) => ({
   squareDragged: state.boardgame.squareBeingDragged,
   squareReplaced: state.boardgame.squareBeingReplaced,
   score: state.boardgame.score,
+  scoreTrueOrFalse: state.boardgame.scoreTrueOrFalse,
+  movement: state.boardgame.movement,
   });
 
 
@@ -30,9 +32,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   squareBeingReplaced: (payload) => {
     dispatch(squareBeingReplaced(payload))
   },
-  addScore:(payload) => {
+  addScore:(payload) => { console.log('container score', payload)
     dispatch(addScore(payload))
-  }
+  },
+  setScoreTrueOrFalse: (payload) => {
+    dispatch(setScoreTrueOrFalse())
+  },
+  setMovement: () => {
+    dispatch(setMovement())
+  },
 });
 
 // Container
