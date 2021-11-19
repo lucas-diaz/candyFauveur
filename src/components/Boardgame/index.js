@@ -220,7 +220,7 @@ useEffect(() => {
       {colorArrangement.map((color, index) => (
         <img
           key={index}
-          //style={{backgroundColor: color }}
+          //style={{backgroundColor: color }}ff
           src={color}
           alt={color}
           data-id={index}
