@@ -10,12 +10,12 @@ import prout from '../assets/prout.jpg';
 const initialState = {
   width: 8,
   candyColors: [
-    pacman,
-    joevin,
-    lucas,
-    maeva,
-    shuny,
-    prout,
+    [pacman, 'green'],
+    [joevin, 'purple'],
+    [lucas, 'blue'],
+    [maeva, 'red'],
+    [shuny, 'black'],
+    [prout, 'yellow'],
   ],
   colorArrangement: [],
   squareBeingDragged: {},

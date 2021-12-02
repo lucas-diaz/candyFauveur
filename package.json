@@ -55,6 +55,7 @@
     "webpack-merge": "*"
   },
   "dependencies": {
+    "gh-pages": "^3.2.3",
     "prop-types": "*",
     "react": "*",
     "react-dom": "*",
