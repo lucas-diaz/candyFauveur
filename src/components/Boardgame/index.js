@@ -42,14 +42,12 @@ const BoardGame = ({
   //fonction de deplacement drag and drop
   // fonction debut de l'evenement a la  prise d'un element
   const dragStart = (e) => {
-    //console.log('drag start', e.target);
     if (movement >= 1) {
       squareBeingDragged(e.target);   
     }
   };
     // fonction lacher d'un element
   const dragDrop = (e) => {
-    // console.log('drag drop', e.target);
     squareBeingReplaced(e.target);
   };
     // fonction fin de l'evenement 
@@ -79,7 +77,7 @@ const BoardGame = ({
       console.log('123 valid')
       squareBeingReplaced(null)
       squareBeingDragged(null)
-      console.log('move reussi')
+
     }
     else{
       colorArrangement[squareBeingReplacedId] = squareReplaced.getAttribute('src') ;
@@ -117,6 +115,7 @@ const BoardGame = ({
       // regarder si colonne de 3 meme couleur et n'est pas 'blanc'
       if (columnOfThree.every( square => colorArrangement[square] === decidedColor && !isBlank)) {
         // verifier si un colonne de 4 est possible
+        console.log(colorArrangement)
         if (columnOfFour.every( square => colorArrangement[square] === decidedColor && !isBlank)) {
           // verifier si un colonne de 5 est possible
           if (columnOfFive.every( square => colorArrangement[square] === decidedColor && !isBlank)) {
@@ -180,7 +179,7 @@ const BoardGame = ({
       const filterArrayScore = arrayScore.filter((item, index) => (
         arrayScore.indexOf(item) === index
       ));
-      console.log(filterArrayScore, ' filter')
+
       addScore(score + filterArrayScore.length) 
     }
     arrayScore.forEach(square => colorArrangement[square] = blank);
@@ -196,7 +195,6 @@ useEffect(() => {
     }, 100 )
   return () => clearInterval(timer)
 }, [moveIntoSquareBelow, colorArrangement, check]);
- console.log(movement)
   return (
     <div className="main">
       <div className="scoreAndMovement">
@@ -210,12 +208,12 @@ useEffect(() => {
         </div>
        </div>
     <div className="game">
-      {colorArrangement.map((color, index) => (
+      {colorArrangement.map((img, index, color) => (
         <img
           key={index}
-          //style={{backgroundColor: color }}ff
-          src={color}
-          alt={color}
+          style={{backgroundColor: color }}
+          src={img}
+          alt={img}
           data-id={index}
           draggable="true"
           onDragStart={dragStart}
