@@ -23,86 +23,6 @@ const BoardGame = ({
   scoreTrueOrFalse,
   movement,
  setMovement, }) => {
-
-
-// chexk des colonne si 4 couleur identique
-const checkForColumnOfFour = () => {
-    for (let i = 0; i <= 39; i++) {
-      const columnOfFour = [i, i + width, i + width * 2, i + width * 3];
-      const decidedColor = colorArrangement[i];
-      const isBlank = colorArrangement[i] === blank
-
-      if (columnOfFour.every( square => colorArrangement[square] === decidedColor && !isBlank)) {
-        columnOfFour.forEach(square => colorArrangement[square] = blank)
-        if (scoreTrueOrFalse) {
-          addScore(score + 4);
-        }
-        return true
-      }
-    }
-}
-
-
-  // chexk des ligne si 3 couleur identique
-  const checkForRowOfFour = () => {
-    for (let i = 0; i < 64; i++) {
-      const RowOfFour = [i, i + 1, i + 2, i + 3];
-      const decidedColor = colorArrangement[i];
-      const notValid = [5, 6, 7, 13, 14, 15, 21, 22, 23, 29, 30, 31, 37, 38, 39, 45, 46, 47, 53, 54, 55, 62, 63, 64]; 
-      const isBlank = colorArrangement[i] === blank
-
-      if (notValid.includes(i)) continue;
-      
-      if (RowOfFour.every(square => colorArrangement[square] === decidedColor && !isBlank)) {
-        RowOfFour.forEach(square => colorArrangement[square] = blank)
-
-        const colorFilterScore = colorArrangement.filter( item => item === blank )
-        if (scoreTrueOrFalse) {
-          addScore(score + 4)
-        }
-      }
-    }
-  }
-
-    // chexk des colonne si 4 couleur identique
-  const checkForColumnOfThree = () => {
-    for (let i = 0; i <= 47; i++) {
-      const columnOfThree = [i, i + width, i + width * 2];
-      const decidedColor = colorArrangement[i];
-      const isBlank = colorArrangement[i] === blank
-      if (columnOfThree.every( square => colorArrangement[square] === decidedColor && !isBlank)) {
-        if (scoreTrueOrFalse) {
-          addScore(score + 3)   
-        }
-        console.log(columnOfThree[0], 'premier caré')
-        columnOfThree.forEach(square => colorArrangement[square] = blank)
-        return true;
-      }
-    }
-  };
-
-
-  // chexk des ligne si 3 couleur identique
-  const checkForRowOfThree = () => {
-    for (let i = 0; i < 64; i++) {
-      const RowOfThree = [i, i + 1, i + 2];
-      const decidedColor = colorArrangement[i];
-      const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 63, 64]; 
-      const isBlank = colorArrangement[i] === blank
-
-      if (notValid.includes(i)) continue;
-      
-      if (RowOfThree.every(square => colorArrangement[square] === decidedColor && !isBlank)) {
-        if (scoreTrueOrFalse) {
-          addScore(score + 3)
-        }
-        RowOfThree.forEach(square => colorArrangement[square] = blank)
-      }
-    }
-  }
-
-
-
   const moveIntoSquareBelow = () => {
     for (let i = 0; i < 64 - width; i++) {
       // remplace les premier carré vidé par des plein de facon random
@@ -178,11 +98,10 @@ const checkForColumnOfFour = () => {
       randomColorArrangement.push(randomColor)
     }
     randColors(randomColorArrangement);
-  }
+  };
 
   useEffect(() => {
     CreateBoard();
-    
 }, []);
 
   const check = () => {
@@ -258,34 +177,25 @@ const checkForColumnOfFour = () => {
     // si le tableau ne contient plus de ligne/colonne du a la generation
     if (scoreTrueOrFalse) {
       // prendre la variable arrayScore et ajouter le nombre d'element au score
-      console.log(arrayScore.length, 'arrascore')
-      addScore(arrayScore.length) 
+      const filterArrayScore = arrayScore.filter((item, index) => (
+        arrayScore.indexOf(item) === index
+      ));
+      console.log(filterArrayScore, ' filter')
+      addScore(score + filterArrayScore.length) 
     }
-    console.log(arrayScore)
     arrayScore.forEach(square => colorArrangement[square] = blank);
-    //arrayScore = [];
+    
   };
-
-
-
 
 // permet le rafraichisement pour check si des sumbole de 3-4 sont reunie
 useEffect(() => {
   const timer = setInterval(() => {
-
-    setTimeout(() => {
-/*       checkForRowOfFour();
-      checkForColumnOfFour();
-      checkForColumnOfThree();
-      checkForRowOfThree(); */
       check()
       moveIntoSquareBelow();
-      modifyColorBlank(colorArrangement);
-      
-    }, 10);
-    }, 200 )
+      modifyColorBlank(colorArrangement);    
+    }, 100 )
   return () => clearInterval(timer)
-}, [checkForRowOfFour, checkForColumnOfFour, checkForColumnOfThree, checkForRowOfThree, moveIntoSquareBelow, colorArrangement]);
+}, [moveIntoSquareBelow, colorArrangement, check]);
  console.log(movement)
   return (
     <div className="main">
